@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "consumer_public <- \"826ivoqQxANjqGkfS639NmbQT\"\nconsumer_private <- \"804cdlpZUwXYJtNARGV04bpQFPtfkSJTKOUxmIJyyKWreRMgTf\"\npublic_key <- \"812157246893264896-19zyRe9Iglr4Cq3VXQzKaawc3gCMwfL\"\nprivate_key <- \"MfogDScxSbe7ivy8cXbemx1wTt2oyQHmjVd5SmuqGPTpC\"",
+    "created" : 1538788731823.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1023163321",
+    "id" : "45AB7700",
+    "lastKnownWriteTime" : 1538788754,
+    "last_content_update" : 1538788754669,
+    "path" : "~/Documents/INFO330/kavProject/api-keys.R",
+    "project_path" : "api-keys.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

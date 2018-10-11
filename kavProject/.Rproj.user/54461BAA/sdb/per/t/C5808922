@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(jsonlite)\nlibrary(plotly)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(twitteR)\n\nsource(\"api-keys.R\")\n\nsetup_twitter_oauth(consumer_public, consumer_private, public_key, private_key)\n\nshinyServer(\n  function(input, output) {\n    output$key_tweets <- renderTable({\n      return(term_search(input$term))\n    })\n    tweets <- reactive({\n      popular <- return(term_top_5(input$top_5, input$quantity))\n    })\n    output$tweets_plot <- renderPlotly({\n      return(plot_tweets(tweets()))\n    })\n    output$tweets_tbl <- renderTable({\n      tweets()[, c(\"Twitter Handle\", \"Tweet\", \"Number of Retweets\")]\n    })\n    \n    \n    output$plot <- renderPlot({\n      tweet_info <- searchTwitter(paste0(\"#\", input$hashtag), 50)\n      tweet_info_df <- twListToDF(tweet_info)\n      \n      text <- data_frame(tweet = tweet_info_df$text) %>%\n        unnest_tokens(word, tweet)\n      \n      tweet_score <- text %>%\n        inner_join(get_sentiments(\"afinn\"), by = \"word\") %>%\n        count(word, score, sort = TRUE) %>%\n        ungroup()\n      \n      # I split these up for clarity, although they could be combined\n      tweet_sentiment <- text %>%\n        inner_join(get_sentiments(\"nrc\"), by = \"word\") %>%\n        count(sentiment, sort = TRUE) %>%\n        ungroup() %>%\n        rename(word = sentiment)\n      \n      binary_sentiment <- tweet_sentiment %>%\n        inner_join(get_sentiments(\"bing\"), by = \"word\") %>%\n        ungroup() %>%\n        arrange(n)\n      \n      \n      is.data.frame(binary_sentiment)   \n      total_score <- tweet_score$score * tweet_score$n\n      \n      \n      # I would like to point out that it was NOT easy to get those colors right\n      positivity_plot <- ggplot(data = tweet_score, aes(x = factor(word), y = total_score)) +\n        geom_bar(aes(fill = total_score < 0), stat = \"identity\") +\n        theme(axis.text.x = element_text(angle = 90, hjust = 1)) +\n        scale_fill_manual(guide = FALSE, breaks = c(TRUE, FALSE), values = c(\"green\", \"red\")) +\n        labs(\n          x = \"Most Common Words in Tweets\",\n          y = \"Positivity Score\",\n          title = \"Positivity of Tweets\",\n          fill = \"Positivity\"\n        )\n      \n      # Using only 3 through 8 since 'positive' and 'negative are by\n      # far the most popular sentiments, although they cannot be used\n      \n      sentiment <- ggplot(binary_sentiment, aes(x = factor(word, levels = unique(word)), y = n)) +\n        geom_bar(stat = \"identity\", aes(fill = factor(sentiment))) +\n        coord_flip() +\n        labs(\n          x = \"Most Common Emotions\",\n          y = \"Frequency\",\n          title = \"Emotions Conveyed by Tweets\",\n          fill = \"Positivity\"\n        )\n      \n      ggarrange(sentiment, positivity_plot,\n                labels = c(\"A\", \"B\"),\n                ncol = 2, nrow = 1\n      )\n    })\n    \n    \n    output$plot2 <- renderPlot({\n      search <- searchTwitter(input$hashtag)\n      popular_tweets <- twListToDF(search)\n      bar_stuff <- popular_tweets %>%\n        select(screenName, retweetCount)\n      \n      \n      bar_plot <- ggplot(bar_stuff, aes(screenName, retweetCount))\n      bar_plot + geom_bar(stat = \"identity\", fill = \"#FF6666\") +\n        xlab(\"Usernames\") +\n        ylab(\"Retweet Count\") +\n        theme(axis.text.x = element_text(angle = 90, hjust = 1))\n    })\n  }\n)\n",
+    "created" : 1538788571952.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1459065044",
+    "id" : "C5808922",
+    "lastKnownWriteTime" : 1538789362,
+    "last_content_update" : 1538789362364,
+    "path" : "~/Documents/INFO330/kavProject/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(plotly)\nlibrary(tidytext)\nlibrary(ggpubr)\n\nui <- shinyUI(\n  navbarPage(\n    \"Project Name Here\",\n    \n    tabPanel(\n      \"Sample by Term\",\n      titlePanel(\"Sample 100 Tweets/Retweets by Term\"),\n      sidebarLayout(\n        sidebarPanel(\n          textInput(\"term\",\n                    label = \"Search for a Term\",\n                    value = \"Trump\"\n          )\n        ),\n        mainPanel(\n          tableOutput(\"key_tweets\")\n        )\n      )\n    ),\n    \n    tabPanel(\n      \"HashTag\",\n      titlePanel(\"HashTag\"),\n      sidebarLayout(\n        sidebarPanel(\n          width = 3,\n          textInput(\"hashtag\", \n                    label = \"Search for a Term\",\n                    value = \"Trump\")\n        ),\n        mainPanel(\n          plotOutput(\"plot\"),\n          plotOutput(\"plot2\")\n        )\n      )\n    ),\n    tabPanel(\n      \"Most Retweeted\",\n      titlePanel(\"Top 5 Tweets/Retweets by Retweets\"),\n      sidebarLayout(\n        sidebarPanel(\n          textInput(\"top_5\",\n                    label = \"Top 5 Tweets/Retweets from a Random Sample\",\n                    value = \"Trump\"\n          ),\n          sliderInput(\"quantity\",\n                      label = \"Select of Sample Size\",\n                      min = 1,\n                      max = 1000,\n                      value = 500,\n                      ticks = TRUE,\n                      animate = FALSE\n          )\n        ),\n        mainPanel(\n          plotlyOutput(\"tweets_plot\"),\n          tableOutput(\"tweets_tbl\")\n        )\n      )\n    )\n  )\n)\n",
+    "created" : 1538788571682.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2435393440",
+    "id" : "8C5474AF",
+    "lastKnownWriteTime" : 1538788700,
+    "last_content_update" : 1538788700849,
+    "path" : "~/Documents/INFO330/kavProject/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
